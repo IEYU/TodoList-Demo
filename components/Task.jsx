@@ -1,26 +1,33 @@
 import { StyleSheet, Text, View } from "react-native";
-import Star from "./Star";
 import Circle from "./Circle";
+import Star from "./Star";
 
-/* Each task item is composed of 3 components:
-   circle to mark completion | task name | star to mark as important task
-*/
-const Task = ({ task, onDelete }) => {
-	// Create a function that will be passed to Circle
+const Task = ({ task, onComplete, onUncomplete, onDelete }) => {
 	const handleDelete = () => {
 		onDelete(task);
 	};
 
+	const handleComplete = (isComplete) => {
+		onComplete(isComplete);
+	};
+
 	return (
 		<View style={styles.task}>
-			{/* leftmost components: the completion circle and task name */}
 			<View style={styles.taskLeft}>
-				<Circle onDelete={handleDelete} />
-				{/* Pass the function reference */}
-				<Text style={styles.taskText}>{task.title}</Text>
+				<Circle task={task} onComplete={handleComplete} />
+				<Text
+					style={[
+						styles.taskText,
+						{
+							textDecorationLine: task.isComplete
+								? "line-through"
+								: "none",
+						},
+					]}
+				>
+					{task.title}
+				</Text>
 			</View>
-
-			{/* rightmost component: the star for marking importance */}
 			<View style={styles.taskRight}>
 				<Star />
 			</View>
@@ -47,7 +54,6 @@ const styles = StyleSheet.create({
 	taskLeft: {
 		flexDirection: "row",
 		alignItems: "center",
-		flexWrap: "wrap",
 	},
 	taskText: {
 		fontSize: 15,

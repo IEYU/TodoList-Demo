@@ -46,15 +46,21 @@ export default function App() {
 	};
 
 	// Complete Task
-	const markTaskComplete = (taskToComplete) => {
+	const markTaskComplete = (taskToComplete, isComplete) => {
 		const updatedTasks = tasks.map((task) =>
-			task === taskToComplete ? { ...task, isComplete: true } : task
+			task === taskToComplete ? { ...task, isComplete: isComplete } : task
 		);
-		setTasks(updatedTasks);
+		// Sort tasks to ensure completed tasks are at the bottom
+		const sortedTasks = updatedTasks.sort(
+			(a, b) => a.isComplete - b.isComplete
+		);
+
+		// Set the sorted tasks
+		setTasks(sortedTasks);
 	};
 
 	// Calculate the total number of tasks
-	const totalTasks = tasks.length;
+	const totalTasks = tasks.filter((task) => !task.isComplete).length;
 
 	return (
 		<View style={styles.container}>
@@ -81,7 +87,10 @@ export default function App() {
 							<Task
 								key={index}
 								task={task}
-								onDelete={() => deleteTask(task)} // Pass a function reference
+								onComplete={(isComplete) =>
+									markTaskComplete(task, isComplete)
+								}
+								onDelete={() => deleteTask(task)}
 							/>
 						))}
 					</View>

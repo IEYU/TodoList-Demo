@@ -2,18 +2,17 @@ import { StyleSheet, View, Pressable } from "react-native";
 import { useState, useEffect } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 
-const Circle = ({ task, onDelete }) => {
-	const [isComplete, setIsComplete] = useState(false);
+const Circle = ({ task, onComplete }) => {
+	const [isComplete, setIsComplete] = useState(task.isComplete);
 
-	// Handle task deletion only when marking as complete
 	useEffect(() => {
-		if (isComplete) {
-			onDelete(task);
-			setIsComplete((prevState) => !prevState); // Toggle the state
-		}
-	}, [isComplete]); // watch for changes in isComplete state
+		setIsComplete(task.isComplete);
+	}, [task.isComplete]);
 
 	const handlePress = () => {
+		const newState = !isComplete;
+		setIsComplete(newState);
+		onComplete(newState);
 		setIsComplete((prevState) => !prevState); // Toggle the state
 	};
 
@@ -21,7 +20,6 @@ const Circle = ({ task, onDelete }) => {
 		<View>
 			<Pressable onPress={handlePress}>
 				<FontAwesome
-					// Click to toggle the circle icon depending on the state
 					name={isComplete ? "check-circle" : "circle-thin"}
 					size={25}
 					style={styles.circle}
@@ -31,11 +29,11 @@ const Circle = ({ task, onDelete }) => {
 	);
 };
 
-export default Circle;
-
 const styles = StyleSheet.create({
 	circle: {
 		color: "#555",
 		marginRight: 15,
 	},
 });
+
+export default Circle;
