@@ -34,6 +34,7 @@ const AddTaskButton = ({ modalVisible, setModalVisible, setTask, addTask }) => {
 		const newTask = {
 			title: taskTitle,
 			description: taskDescription,
+			isComplete: false,
 		};
 		setTask(newTask); // Set the task with the title and description
 		addTask(newTask); // Call the addTask function from parent

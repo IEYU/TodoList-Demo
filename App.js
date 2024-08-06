@@ -2,6 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import React, { useState } from "react";
 import { FontAwesome } from "@expo/vector-icons";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 // Component Imports
 import Task from "./components/Task";
@@ -61,27 +62,27 @@ export default function App() {
 
 	// Calculate the total number of tasks
 	const totalTasks = tasks.filter((task) => !task.isComplete).length;
-
+	tasks.forEach((task) => {
+		console.log(task.title, task.isComplete);
+	});
 	return (
-		<View style={styles.container}>
-			{/* Scrollable task list */}
+		//wrap entry point with
+		<GestureHandlerRootView style={({ flex: 1 }, styles.container)}>
+			{/* <View style={styles.container}> */}
 			<ScrollView contentContainerStyle={styles.scrollViewContent}>
 				<View style={styles.tasksWrapper}>
 					<Text style={styles.sectionTitle}>Today's Tasks</Text>
 					<View style={styles.dateWrapper}>
 						<Text style={styles.date}>{formattedDate}</Text>
 						<Text style={styles.taskCount}>
-							{/* show the counts of total tasks left */}
 							<FontAwesome
 								name="list-ul"
 								size={14}
 								color="black"
-							/>
+							/>{" "}
 							{totalTasks}
 						</Text>
 					</View>
-
-					{/* Tasks */}
 					<View style={styles.items}>
 						{tasks.map((task, index) => (
 							<Task
@@ -96,17 +97,16 @@ export default function App() {
 					</View>
 				</View>
 			</ScrollView>
-
-			{/* Bottom button to add a task */}
 			<AddTaskButton
-				style={styles.addButton}
 				modalVisible={modalVisible}
 				setModalVisible={setModalVisible}
 				task={task}
 				setTask={setTask}
 				addTask={addTask}
 			/>
-		</View>
+			<StatusBar style="auto" />
+			{/* </View> */}
+		</GestureHandlerRootView>
 	);
 }
 
