@@ -13,8 +13,7 @@ import {
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
-const AddTaskButton = () => {
-	const [modalVisible, setModalVisible] = useState(false);
+const AddTaskButton = ({ modalVisible, setModalVisible, setTask, addTask }) => {
 	const [taskTitle, setTaskTitle] = useState("");
 	const [taskDescription, setTaskDescription] = useState("");
 
@@ -31,10 +30,14 @@ const AddTaskButton = () => {
 		}
 	};
 
-	const addTask = () => {
-		// Handle task addition logic here
-		console.log("Task added:", taskTitle, taskDescription);
-		closeModal();
+	const handleAddTask = () => {
+		const newTask = {
+			title: taskTitle,
+			description: taskDescription,
+		};
+		setTask(newTask); // Set the task with the title and description
+		addTask(newTask); // Call the addTask function from parent
+		closeModal(); // Close the modal
 	};
 
 	return (
@@ -57,19 +60,20 @@ const AddTaskButton = () => {
 						<View style={styles.modalContent}>
 							<TextInput
 								style={styles.textInput}
-								onChangeText={setTaskTitle}
+								onChangeText={setTaskTitle} //set the task title
 								value={taskTitle}
 								placeholder="e.g., Chapter One team meeting at 3PM"
 							/>
 							<TextInput
 								style={[styles.textInput, styles.textArea]}
+								//set the task description
 								onChangeText={setTaskDescription}
 								value={taskDescription}
 								placeholder="Description"
 								multiline
 							/>
 							<Pressable
-								onPress={addTask}
+								onPress={handleAddTask}
 								style={styles.addButton}
 							>
 								<Text style={styles.addButtonText}>Add</Text>

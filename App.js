@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 
 // Component Imports
@@ -15,24 +15,43 @@ export default function App() {
 		date
 	);
 
-	// Define tasks
-	const tasks = [
-		"Task 1",
-		"Task 2",
-		"Task 3",
-		"Task 4",
-		"Task 5",
-		"Task 1",
-		"Task 2",
-		"Task 3",
-		"Task 4",
-		"Task 5",
-		"Task 1",
-		"Task 2",
-		"Task 3",
-		"Task 4",
-		"Task 5",
-	];
+	// Task state
+	const [tasks, setTasks] = useState([]);
+	const [task, setTask] = useState({
+		title: "",
+		description: "",
+		isComplete: false,
+	});
+	const [modalVisible, setModalVisible] = useState(false);
+
+	// Add Task
+	const addTask = (newTask) => {
+		console.log("Task added:", newTask.title, newTask.description);
+		if (newTask.title) {
+			setTasks([newTask, ...tasks]); // Prepend the new task
+			setTask({ title: "", description: "", isComplete: false }); // Clear the task state
+			setModalVisible(false); // Close the modal
+		}
+	};
+
+	// Delete Task
+	const deleteTask = (taskToDelete) => {
+		console.log(
+			"Task deleted:",
+			taskToDelete.title,
+			taskToDelete.description
+		);
+		const newTasks = tasks.filter((task) => task !== taskToDelete);
+		setTasks(newTasks); // Updates the state with the new array
+	};
+
+	// Complete Task
+	const markTaskComplete = (taskToComplete) => {
+		const updatedTasks = tasks.map((task) =>
+			task === taskToComplete ? { ...task, isComplete: true } : task
+		);
+		setTasks(updatedTasks);
+	};
 
 	// Calculate the total number of tasks
 	const totalTasks = tasks.length;
@@ -46,11 +65,12 @@ export default function App() {
 					<View style={styles.dateWrapper}>
 						<Text style={styles.date}>{formattedDate}</Text>
 						<Text style={styles.taskCount}>
+							{/* show the counts of total tasks left */}
 							<FontAwesome
 								name="list-ul"
 								size={14}
 								color="black"
-							/>{" "}
+							/>
 							{totalTasks}
 						</Text>
 					</View>
@@ -58,15 +78,25 @@ export default function App() {
 					{/* Tasks */}
 					<View style={styles.items}>
 						{tasks.map((task, index) => (
-							<Task key={index} task={task} />
+							<Task
+								key={index}
+								task={task}
+								onDelete={() => deleteTask(task)} // Pass a function reference
+							/>
 						))}
 					</View>
 				</View>
 			</ScrollView>
 
 			{/* Bottom button to add a task */}
-			<AddTaskButton />
-			<StatusBar style="auto" />
+			<AddTaskButton
+				style={styles.addButton}
+				modalVisible={modalVisible}
+				setModalVisible={setModalVisible}
+				task={task}
+				setTask={setTask}
+				addTask={addTask}
+			/>
 		</View>
 	);
 }
