@@ -42,6 +42,7 @@ This is a task management application built with React Native and Expo. It allow
    - Running on Android: `a`, or
    - Running on iOS simulator: `i`, or
    - Running on Web: `w`, or
+   - other listed options in the terminal
    <br>
 4. **Third-Party Libraries**
 - `@expo/vector-icons`: Provides a collection of customizable vector icons.
