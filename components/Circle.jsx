@@ -31,7 +31,7 @@ const Circle = ({ task, onComplete }) => {
 
 const styles = StyleSheet.create({
 	circle: {
-		color: "#939291",
+		color: "#4D4D4D",
 		marginRight: 15,
 	},
 });
