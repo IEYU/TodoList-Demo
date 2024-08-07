@@ -5,13 +5,19 @@ import uuid from "react-native-uuid";
 import AddTaskModal from "./AddTaskModal";
 import styles from "../styles/addTaskButtonStyle";
 
+/**
+ * @brief Button component for adding a new task
+ */
+
 const AddTaskButton = ({ modalVisible, setModalVisible, setTask, addTask }) => {
+	// State for managing the new task title and description input
 	const [taskTitle, setTaskTitle] = useState("");
 	const [taskDescription, setTaskDescription] = useState("");
 
+	// Close the modal and clear input values
 	const closeModal = () => {
-		setTaskTitle(""); // Clear the input value
-		setTaskDescription(""); // Clear the description value
+		setTaskTitle("");
+		setTaskDescription("");
 		setModalVisible(false);
 	};
 
@@ -22,9 +28,11 @@ const AddTaskButton = ({ modalVisible, setModalVisible, setTask, addTask }) => {
 		}
 	};
 
+	// Handle adding a new task
 	const handleAddTask = () => {
+		// Create a new task object with a unique ID
 		const newTask = {
-			id: uuid.v4(), //give each task an unique id
+			id: uuid.v4(),
 			title: taskTitle,
 			description: taskDescription,
 			isComplete: false,
@@ -36,6 +44,7 @@ const AddTaskButton = ({ modalVisible, setModalVisible, setTask, addTask }) => {
 
 	return (
 		<View style={styles.container}>
+			{/* Render the AddTaskModal component */}
 			<AddTaskModal
 				modalVisible={modalVisible}
 				closeModal={closeModal}
@@ -46,6 +55,8 @@ const AddTaskButton = ({ modalVisible, setModalVisible, setTask, addTask }) => {
 				setTaskDescription={setTaskDescription}
 				handleAddTask={handleAddTask}
 			/>
+
+			{/* Render the button to open the modal */}
 			{!modalVisible && (
 				<Pressable
 					style={styles.buttonOpen}

@@ -7,7 +7,20 @@ import {
 	KeyboardAvoidingView,
 	Platform,
 } from "react-native";
-import styles from "../styles/taskStyles";
+import styles from "../styles/taskStyle";
+
+/**
+ * @brief A modal component for editing task details.
+ * @description provides an interface for users to edit the title
+ * and description of a task.
+ *
+ * @param {Object} props
+ * @param {boolean} props.visible - control the visibility of the modal
+ * @param {Function} props.onClose - close the modal
+ * @param {Function} props.onSave - save the updated task details
+ * @param {string} props.initialTitle - prefilled title of the task
+ * @param {string} props.initialDescription - prefilled description of the task
+ */
 
 const TaskEditModal = ({
 	visible,
@@ -19,6 +32,7 @@ const TaskEditModal = ({
 	const [editTitle, setEditTitle] = useState(initialTitle);
 	const [editDescription, setEditDescription] = useState(initialDescription);
 
+	// updates the input fields when the modal
 	useEffect(() => {
 		if (visible) {
 			setEditTitle(initialTitle);
@@ -26,6 +40,7 @@ const TaskEditModal = ({
 		}
 	}, [visible, initialTitle, initialDescription]);
 
+	// save updated title and description
 	const handleSave = () => {
 		onSave(editTitle, editDescription);
 	};

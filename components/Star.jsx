@@ -1,10 +1,14 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
 import { useState } from "react";
 import { FontAwesome } from "@expo/vector-icons";
-import AntDesign from "@expo/vector-icons/AntDesign";
+
+/**
+ * @brief A component that displays a star icon to represent importance
+ */
 
 const Star = () => {
 	const [isImportant, setIsImportant] = useState(false);
+
 	const handlePress = () => {
 		setIsImportant((prevState) => !prevState); //toggle the state
 	};

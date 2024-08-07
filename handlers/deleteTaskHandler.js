@@ -1,3 +1,10 @@
+/**
+ * @brief Deletes a specified task from the list of tasks.
+ * @param {Object} taskToDelete - The task object to be deleted.
+ * @param {Array} tasks - The current list of tasks.
+ * @param {Function} setTasks - Function to update the task list state.
+ */
+
 export const deleteTask = (taskToDelete, tasks, setTasks) => {
 	console.log(
 		"Task deleted:",
