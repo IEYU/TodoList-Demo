@@ -19,6 +19,7 @@ export default function App() {
 	// Task state
 	const [tasks, setTasks] = useState([]);
 	const [task, setTask] = useState({
+		id: "",
 		title: "",
 		description: "",
 		isComplete: false,
@@ -27,10 +28,15 @@ export default function App() {
 
 	// Add Task
 	const addTask = (newTask) => {
-		console.log("Task added:", newTask.title, newTask.description);
+		console.log(
+			"Task added:",
+			newTask.id,
+			newTask.title,
+			newTask.description
+		);
 		if (newTask.title) {
 			setTasks([newTask, ...tasks]); // Prepend the new task
-			setTask({ title: "", description: "", isComplete: false }); // Clear the task state
+			setTask({ id: "", title: "", description: "", isComplete: false }); // Clear the task state
 			setModalVisible(false); // Close the modal
 		}
 	};
@@ -39,17 +45,20 @@ export default function App() {
 	const deleteTask = (taskToDelete) => {
 		console.log(
 			"Task deleted:",
+			taskToDelete.id,
 			taskToDelete.title,
 			taskToDelete.description
 		);
-		const newTasks = tasks.filter((task) => task !== taskToDelete);
+		const newTasks = tasks.filter((task) => task.id !== taskToDelete.id);
 		setTasks(newTasks); // Updates the state with the new array
 	};
 
 	// Complete Task
 	const markTaskComplete = (taskToComplete, isComplete) => {
 		const updatedTasks = tasks.map((task) =>
-			task === taskToComplete ? { ...task, isComplete: isComplete } : task
+			task.id === taskToComplete.id
+				? { ...task, isComplete: isComplete }
+				: task
 		);
 		// Sort tasks to ensure completed tasks are at the bottom
 		const sortedTasks = updatedTasks.sort(
@@ -60,10 +69,19 @@ export default function App() {
 		setTasks(sortedTasks);
 	};
 
+	// Update Task
+	const editTask = (updatedTask) => {
+		console.log(updatedTask.title);
+		const updatedTasks = tasks.map((task) =>
+			task.id === updatedTask.id ? updatedTask : task
+		);
+		setTasks(updatedTasks);
+	};
+
 	// Calculate the total number of tasks
 	const totalTasks = tasks.filter((task) => !task.isComplete).length;
 	tasks.forEach((task) => {
-		console.log(task.title, task.isComplete);
+		console.log(task.id, task.title, task.isComplete);
 	});
 	return (
 		//wrap entry point with
@@ -71,7 +89,7 @@ export default function App() {
 			{/* <View style={styles.container}> */}
 			<ScrollView contentContainerStyle={styles.scrollViewContent}>
 				<View style={styles.tasksWrapper}>
-					<Text style={styles.sectionTitle}>Today's Tasks</Text>
+					<Text style={styles.sectionTitle}>Today</Text>
 					<View style={styles.dateWrapper}>
 						<Text style={styles.date}>{formattedDate}</Text>
 						<Text style={styles.taskCount}>
@@ -92,6 +110,7 @@ export default function App() {
 									markTaskComplete(task, isComplete)
 								}
 								onDelete={() => deleteTask(task)}
+								updateTask={editTask}
 							/>
 						))}
 					</View>

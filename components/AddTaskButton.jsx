@@ -12,12 +12,15 @@ import {
 } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import uuid from "react-native-uuid";
 
 const AddTaskButton = ({ modalVisible, setModalVisible, setTask, addTask }) => {
+	const [taskId, setTaskId] = useState("");
 	const [taskTitle, setTaskTitle] = useState("");
 	const [taskDescription, setTaskDescription] = useState("");
 
 	const closeModal = () => {
+		setTaskId("");
 		setTaskTitle(""); // Clear the input value
 		setTaskDescription(""); // Clear the description value
 		setModalVisible(false);
@@ -32,6 +35,7 @@ const AddTaskButton = ({ modalVisible, setModalVisible, setTask, addTask }) => {
 
 	const handleAddTask = () => {
 		const newTask = {
+			id: uuid.v4(), //give each task an unique id
 			title: taskTitle,
 			description: taskDescription,
 			isComplete: false,
@@ -142,7 +146,7 @@ const styles = StyleSheet.create({
 		marginBottom: 10,
 	},
 	textArea: {
-		height: 80, // Adjust height as needed for description field
+		height: 100, // Adjust height as needed for description field
 	},
 	addButton: {
 		backgroundColor: "#cd5343",
