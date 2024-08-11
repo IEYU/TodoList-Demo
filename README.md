@@ -1,4 +1,4 @@
-# Task Manager App (Chapter One Tech Screen)
+# Task Manager App
 
 ## Overview
 This is a task management application built with React Native and Expo. It allows users to manage tasks with functionalities such as adding, editing, deleting, and marking tasks as complete.
@@ -52,3 +52,7 @@ This is a task management application built with React Native and Expo. It allow
 - `react-native-uuid`: Generates unique identifiers for tasks.
 - `react-native-safe-area-context`: Manages safe area insets for handling notches and status bars.
 - `react-native-screens`: Improves performance for handling screens in React Navigation.
+
+#### Next Step
+1. calendar / date picker
+2. notification feature
